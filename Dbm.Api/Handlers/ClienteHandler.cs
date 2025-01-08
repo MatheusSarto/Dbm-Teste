@@ -1,4 +1,5 @@
 ﻿using Dbm.Api.Data;
+using Dbm.Api.Repositories;
 using Dbm.Core.Handlers;
 using Dbm.Core.Models;
 using Dbm.Core.Requests.Cliente;
@@ -11,11 +12,11 @@ namespace Dbm.Api.Handlers
 {
     public class ClienteHandler : IHandlerCliente
     {
-        private readonly AppDbContext _context;
-        public ClienteHandler(AppDbContext context) 
-        {
-            _context = context;
-        }
+
+        private IClienteRepository _clienteRepository;
+        public ClienteHandler(IClienteRepository clienteRepository) => _clienteRepository = clienteRepository;
+
+
         public async Task<Cliente> AddCliente(AddCliente request)
         {
             var novoCliente = new Cliente(); 
@@ -24,40 +25,26 @@ namespace Dbm.Api.Handlers
             novoCliente.Email = request.Email;
             novoCliente.Endereco = request.Endereco;
 
-            _context.Clientes.Add(novoCliente);
-            await _context.SaveChangesAsync(); 
-            
-            return novoCliente;
+            var result = await _clienteRepository.AddCliente(novoCliente);
+            return result;
         }
 
         public async Task<Cliente?> DeleteCliente(DeleteCliente request)
         {
-            var cliente = await _context.Clientes.FindAsync(request.IdCliente);
-            if(cliente != null)
-            {
-                _context.Clientes.Remove(cliente); 
-                await _context.SaveChangesAsync();  
-            }
-
-            return cliente;
+            var result = await _clienteRepository.DeleteCliente(request.IdCliente);
+            return result;
         }
 
         public async Task<Cliente> GetClienteById(GetClienteById request)
         {
-            var cliente = await _context.Clientes.FindAsync(request.ClienteId);
-            if (cliente != null)
-            {
-                _context.Clientes.Remove(cliente);
-                await _context.SaveChangesAsync();
-            }
-
-            return cliente;
+            var result = await _clienteRepository.GetClienteById(request.ClienteId);
+            return result;
         }
 
         public async Task<Cliente[]> GetTodosClientes(GetTodosClientes request)
         {
-            var clientes = await _context.Clientes.ToArrayAsync();
-            return clientes;
+            var result = await _clienteRepository.GetTodosClientes();
+            return result;
         }
 
         public async Task<Cliente> UpdateCliente(UpdateCliente request)
@@ -67,13 +54,10 @@ namespace Dbm.Api.Handlers
             updateCliente.Nome = request.Nome;
             updateCliente.Email = request.Email;
             updateCliente.IdCliente = request.ClienteId;
-            updateCliente.Endereco = request.Endereco;  
-            
-            _context.Entry(updateCliente).State = EntityState.Modified;
+            updateCliente.Endereco = request.Endereco;
 
-            await _context.SaveChangesAsync();
-            return updateCliente;
-        
+            var result = await _clienteRepository.UpdateCliente(updateCliente);
+            return result;
         }
     }
 }

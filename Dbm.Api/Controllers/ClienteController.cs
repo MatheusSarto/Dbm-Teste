@@ -80,7 +80,7 @@ namespace Dbm.Api.Controllers
         {
             try
             {
-                var result = ClienteHandler.UpdateCliente(request).Result;
+                var result = await ClienteHandler.UpdateCliente(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -99,7 +99,7 @@ namespace Dbm.Api.Controllers
         {
             try
             {
-                var result = ClienteHandler.DeleteCliente(request).Result;
+                var result = await ClienteHandler.DeleteCliente(request);
                 if (result != null)
                 {
                     return Ok(result);

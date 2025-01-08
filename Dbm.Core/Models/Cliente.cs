@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Dbm.Core.Models
@@ -14,6 +15,7 @@ namespace Dbm.Core.Models
         public string Telefone { get; set; } = null!;
         public string Endereco { get; set; } = null!;
 
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
         public ICollection<Protocolo> Protocolos { get; set; }
     }
 }

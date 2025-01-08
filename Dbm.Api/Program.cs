@@ -1,6 +1,7 @@
 using Dbm.Api.Controllers;
 using Dbm.Api.Data;
 using Dbm.Api.Handlers;
+using Dbm.Api.Repositories;
 using Dbm.Core.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -19,6 +20,7 @@ builder.Services.AddSwaggerGen(x =>
 });
 
 builder.Services.AddTransient<IHandlerCliente, ClienteHandler>();
+builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
 
 var app = builder.Build(); 
 if (app.Environment.IsDevelopment())
