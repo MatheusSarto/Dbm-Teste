@@ -14,12 +14,12 @@ namespace Dbm.Api.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<ProtocoloFollow> GetStatusAcompanhamentoById(long idAcompanhamento)
+        public Task<ProtocoloFollow> GetAcompanhamentoById(long idAcompanhamento)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ProtocoloFollow[]> GetTodosstatusProtocolo()
+        public Task<ProtocoloFollow[]> GetTodosAcompanhamentosProtocolo()
         {
             throw new NotImplementedException();
         }

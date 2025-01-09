@@ -1,4 +1,5 @@
-﻿using Dbm.Core.Handlers;
+﻿using Dbm.Api.Repositories;
+using Dbm.Core.Handlers;
 using Dbm.Core.Models;
 using Dbm.Core.Requests.StatusProtocolos;
 
@@ -6,29 +7,48 @@ namespace Dbm.Api.Handlers
 {
     public class HandlerStatusProtocolo : IStatusProtocolo
     {
-        public Task<StatusProtocolo?> AddStatusProtocolo(AddStatusProtocolo request)
+        private readonly IStatusProtocoloRepository _statusProtocoloRepository;
+        public HandlerStatusProtocolo(IStatusProtocoloRepository statusProtocoloRepository) 
+            => _statusProtocoloRepository = statusProtocoloRepository;
+
+        public async Task<StatusProtocolo?> AddStatusProtocolo(AddStatusProtocolo request)
         {
-            throw new NotImplementedException();
+            var novoProtocolo = new StatusProtocolo();
+            novoProtocolo.NomeStatus = request.NomeStatus;
+
+            var result = await _statusProtocoloRepository.AddStatusProtocolo(novoProtocolo);
+            return result;
         }
 
-        public Task<StatusProtocolo?> DeleteStatusProtocolo(DeleteStatusProtocolo request)
+        public async Task<StatusProtocolo?> DeleteStatusProtocolo(DeleteStatusProtocolo request)
         {
-            throw new NotImplementedException();
+            var result = await _statusProtocoloRepository.DeleteStatusProtocolo(request.IdStatus);
+
+            return result;
         }
 
-        public Task<StatusProtocolo?> GetStatusProtocoloById(GetStatusProtocoloById request)
+        public async Task<StatusProtocolo?> GetStatusProtocoloById(GetStatusProtocoloById request)
         {
-            throw new NotImplementedException();
+            var result = await _statusProtocoloRepository.GetStatusProtocoloById(request.IdStatus);
+
+            return result;
         }
 
-        public Task<StatusProtocolo[]> GetTodosStatusProtocolo(GetTodosStatusProtocolo request)
+        public async Task<StatusProtocolo[]> GetTodosStatusProtocolo(GetTodosStatusProtocolo request)
         {
-            throw new NotImplementedException();
+            var result = await _statusProtocoloRepository.GetTodosstatusProtocolo();
+
+            return result;
         }
 
-        public Task<StatusProtocolo?> UpdateStatusProtocolo(UpdateStatusProtocolo request)
+        public async Task<StatusProtocolo?> UpdateStatusProtocolo(UpdateStatusProtocolo request)
         {
-            throw new NotImplementedException();
+            var updateStatusProtocolo = new StatusProtocolo();
+            updateStatusProtocolo.NomeStatus = request.NomeStatus;
+            updateStatusProtocolo.IdStatus = request.IdStatus;
+
+            var result = await _statusProtocoloRepository.UpdateStatusProtocolo(updateStatusProtocolo);
+            return result;
         }
     }
 }

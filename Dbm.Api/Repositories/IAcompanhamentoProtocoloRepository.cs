@@ -7,7 +7,7 @@ namespace Dbm.Api.Repositories
         Task<ProtocoloFollow> AddAcompanhamentoProtocolo(ProtocoloFollow protocolo);
         Task<ProtocoloFollow?> DeleteAcompanhamentoProtocolo(long idCliente);
         Task<ProtocoloFollow> UpdateAcompanhamentoProtocolo(ProtocoloFollow statusProtocolo);
-        Task<ProtocoloFollow> GetStatusAcompanhamentoById(long idAcompanhamento);
-        Task<ProtocoloFollow[]> GetTodosstatusProtocolo();
+        Task<ProtocoloFollow> GetAcompanhamentoById(long idAcompanhamento);
+        Task<ProtocoloFollow[]> GetTodosAcompanhamentosProtocolo();
     }
 }

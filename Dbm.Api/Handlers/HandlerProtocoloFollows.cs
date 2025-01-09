@@ -1,34 +1,62 @@
-﻿using Dbm.Core.Handlers;
+﻿using Dbm.Api.Repositories;
+using Dbm.Core.Handlers;
 using Dbm.Core.Models;
 using Dbm.Core.Requests.ProtocoloFollow;
+using Microsoft.AspNetCore.Server.HttpSys;
 
 namespace Dbm.Api.Handlers
 {
     public class HandlerProtocoloFollows : IHandlerProtocoloFollow
     {
-        public Task<ProtocoloFollow?> AddProtocoloFollow(AddProtocoloFollow request)
+        private IAcompanhamentoProtocoloRepository _protocoloFollowRepository;
+        public HandlerProtocoloFollows(IAcompanhamentoProtocoloRepository protocoloFollowRepository)
+            => _protocoloFollowRepository = protocoloFollowRepository;
+
+        public async Task<ProtocoloFollow?> AddProtocoloFollow(AddProtocoloFollow request)
         {
-            throw new NotImplementedException();
+            var novoProtocoloFollow = new ProtocoloFollow();
+            novoProtocoloFollow.ProtocoloId = request.ProtocoloId;
+            novoProtocoloFollow.ProtocoloId = request.ProtocoloId;
+            novoProtocoloFollow.DataAcao = DateTime.Now;
+            novoProtocoloFollow.DescricaoAcao = request.DescricaoAcao;
+
+            await _protocoloFollowRepository.AddAcompanhamentoProtocolo(novoProtocoloFollow);
+            
+            return novoProtocoloFollow; 
         }
 
-        public Task<ProtocoloFollow?> DeleteProtocoloFollow(DeleteProtocoloFollow request)
+        public async Task<ProtocoloFollow?> DeleteProtocoloFollow(DeleteProtocoloFollow request)
         {
-            throw new NotImplementedException();
+            var result = await _protocoloFollowRepository.DeleteAcompanhamentoProtocolo(request.ProtocoloId);
+            
+            return result;
         }
 
-        public Task<ProtocoloFollow?> GetProtocoloFollowById(GetProtocoloFollowById request)
+        public async Task<ProtocoloFollow?> GetProtocoloFollowById(GetProtocoloFollowById request)
         {
-            throw new NotImplementedException();
+            var result = await _protocoloFollowRepository.GetAcompanhamentoById(request.ProtocoloId);
+
+            return result;
         }
 
-        public Task<ProtocoloFollow[]> GetTodosProtocolosFollow(GetTodosProtocolosFollow request)
+        public async Task<ProtocoloFollow[]> GetTodosProtocolosFollow(GetTodosProtocolosFollow request)
         {
-            throw new NotImplementedException();
+            var result = await _protocoloFollowRepository.GetTodosAcompanhamentosProtocolo();
+
+            return result;
         }
 
-        public Task<ProtocoloFollow?> UpdateProtocoloFollow(UpdateProtocoloFollow request)
+        public async Task<ProtocoloFollow?> UpdateProtocoloFollow(UpdateProtocoloFollow request)
         {
-            throw new NotImplementedException();
+            var updateProtocolo = new ProtocoloFollow();
+            updateProtocolo.IdFollow = request.IdFollow;
+            updateProtocolo.ProtocoloId = request.ProtocoloId;
+            updateProtocolo.DataAcao = DateTime.Now;
+            updateProtocolo.DescricaoAcao = request.DescricaoAcao;
+
+            var result = await _protocoloFollowRepository.UpdateAcompanhamentoProtocolo(updateProtocolo);
+
+            return result;
         }
     }
 }
