@@ -92,6 +92,7 @@ namespace Dbm.Api.Handlers
         public async Task<Protocolo?> UpdateProtocolo(UpdateProtocolo request)
         {
             var novoProtocolo = new Protocolo();
+            novoProtocolo.IdProtocolo = request.IdProtocolo;
             novoProtocolo.ClienteId = request.ClienteId;
             novoProtocolo.Titulo = request.Titulo;
             novoProtocolo.DataFechamento = request.DataFechamento;

@@ -47,7 +47,7 @@ namespace Dbm.Api.Repositories
 
         public async Task<Cliente> UpdateCliente(Cliente cliente)
         {
-            if (GetClienteById(cliente.IdCliente) == null)
+            if (await GetClienteById(cliente.IdCliente) == null)
             {
                 throw new Exception("Nenhum registro encontrado");
             }

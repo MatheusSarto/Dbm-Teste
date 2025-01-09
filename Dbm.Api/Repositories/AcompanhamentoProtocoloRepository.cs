@@ -49,7 +49,7 @@ namespace Dbm.Api.Repositories
 
         public async Task<ProtocoloFollow> UpdateAcompanhamentoProtocolo(ProtocoloFollow statusProtocolo)
         {
-            if (GetAcompanhamentoById(statusProtocolo.IdFollow) == null)
+            if (await GetAcompanhamentoById(statusProtocolo.IdFollow) == null)
             {
                 throw new Exception("Nenhum registro encontrado");
             }

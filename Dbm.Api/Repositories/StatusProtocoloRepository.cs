@@ -50,7 +50,7 @@ namespace Dbm.Api.Repositories
 
         public async Task<StatusProtocolo> UpdateStatusProtocolo(StatusProtocolo statusProtocolo)
         {
-            if(GetStatusProtocoloById(statusProtocolo.IdStatus) == null)
+            if(await GetStatusProtocoloById(statusProtocolo.IdStatus) == null)
             {
                 throw new Exception("Nenhum registro encontrado");
             }

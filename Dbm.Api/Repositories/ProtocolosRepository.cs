@@ -47,11 +47,12 @@ namespace Dbm.Api.Repositories
 
         public async Task<Protocolo?> UpdateProtocolo(Protocolo protocolo)
         {
-            if (GetProtocoloById(protocolo.IdProtocolo) == null)
+            Protocolo consultaProtocolo = await GetProtocoloById(protocolo.IdProtocolo);
+            if (consultaProtocolo  == null)
             {
                 throw new Exception("Nenhum registro encontrado");
             }
-
+            _context.Entry(consultaProtocolo).State = EntityState.Detached;
             _context.Protocolos.Entry(protocolo).State = EntityState.Modified;  
             await _context.SaveChangesAsync();
 
