@@ -1,27 +1,25 @@
-﻿using Dbm.Api.Handlers;
-using Dbm.Core.Handlers;
-using Dbm.Core.Models;
-using Dbm.Core.Requests.Cliente;
-using Microsoft.AspNetCore.Http;
+﻿using Dbm.Core.Handlers;
+using Dbm.Core.Requests.Protocolo;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Dbm.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClienteController : ControllerBase
+    public class ProtocoloController : ControllerBase
     {
-        private readonly IHandlerCliente ClienteHandler;
-        
-        public ClienteController(IHandlerCliente clienteHandler) => ClienteHandler = clienteHandler;
+        private readonly IProtocoloHandler ProtocoloHandler;
+
+        public ProtocoloController(IProtocoloHandler protocoloHandler) => ProtocoloHandler = protocoloHandler;
+
 
 
         [HttpPost("Add")]
-        public async Task<IActionResult> Add(AddCliente request)
+        public async Task<IActionResult> Add(AddProtocolo request)
         {
             try
             {
-                var result = await ClienteHandler.AddCliente(request);
+                var result = await ProtocoloHandler.AddProtocolo(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -35,11 +33,11 @@ namespace Dbm.Api.Controllers
         }
 
         [HttpPost("GetById")]
-        public async Task<IActionResult> GetById(GetClienteById request)
+        public async Task<IActionResult> GetById(GetProtocoloById request)
         {
             try
             {
-                var result = await ClienteHandler.GetClienteById(request);
+                var result = await ProtocoloHandler.GetProtocoloById(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -54,11 +52,11 @@ namespace Dbm.Api.Controllers
         }
 
         [HttpPost("GetAll")]
-        public async Task<IActionResult> GetAll(GetTodosClientes request)
+        public async Task<IActionResult> GetAll(GetTodosProtocolos request)
         {
             try
             {
-                var result = await ClienteHandler.GetTodosClientes(request);
+                var result = await ProtocoloHandler.GetTodosProtocolo(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -73,11 +71,11 @@ namespace Dbm.Api.Controllers
         }
 
         [HttpPost("Update")]
-        public async Task<IActionResult> Update(UpdateCliente request)
+        public async Task<IActionResult> Update(UpdateProtocolo request)
         {
             try
             {
-                var result = await ClienteHandler.UpdateCliente(request);
+                var result = await ProtocoloHandler.UpdateProtocolo(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -92,11 +90,11 @@ namespace Dbm.Api.Controllers
         }
 
         [HttpPost("Delete")]
-        public async Task<IActionResult> Delete(DeleteCliente request)
+        public async Task<IActionResult> Delete(DeleteProtocolo request)
         {
             try
             {
-                var result = await ClienteHandler.DeleteCliente(request);
+                var result = await ProtocoloHandler.DeleteProtocolo(request);
                 if (result != null)
                 {
                     return Ok(result);
@@ -104,11 +102,10 @@ namespace Dbm.Api.Controllers
                 return NoContent();
 
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-
     }
 }

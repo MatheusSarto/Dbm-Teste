@@ -19,8 +19,18 @@ builder.Services.AddSwaggerGen(x =>
     x.CustomSchemaIds(n => n.FullName);
 });
 
+// Injetando dependencias
 builder.Services.AddTransient<IHandlerCliente, ClienteHandler>();
 builder.Services.AddTransient<IClienteRepository, ClienteRepository>();
+
+builder.Services.AddTransient<IProtocoloHandler, ProtocoloHandler>();
+builder.Services.AddTransient<IProtocolosRepository, ProtocolosRepository>();
+
+builder.Services.AddTransient<IStatusProtocolo, HandlerStatusProtocolo>();
+builder.Services.AddTransient<IStatusProtocoloRepository, StatusProtocoloRepository>();
+
+builder.Services.AddTransient<IAcompanhamentoProtocoloRepository, AcompanhamentoProtocoloRepository>();
+builder.Services.AddTransient<IHandlerProtocoloFollow, HandlerProtocoloFollows>();
 
 var app = builder.Build(); 
 if (app.Environment.IsDevelopment())

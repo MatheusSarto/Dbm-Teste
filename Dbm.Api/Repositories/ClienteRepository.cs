@@ -35,11 +35,6 @@ namespace Dbm.Api.Repositories
         public async Task<Cliente> GetClienteById(long idCliente)
         {
             var cliente = await _context.Clientes.FindAsync(idCliente);
-            if (cliente != null)
-            {
-                _context.Clientes.Remove(cliente);
-                await _context.SaveChangesAsync();
-            }
 
             return cliente;
         }
