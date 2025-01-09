@@ -1,4 +1,4 @@
-﻿using Dbm.Api.Repositories;
+﻿using Dbm.Api.Repositories.Interfaces;
 using Dbm.Core.Handlers;
 using Dbm.Core.Models;
 using Dbm.Core.Requests.StatusProtocolos;

@@ -11,7 +11,7 @@ namespace Dbm.Core.Models
         public long IdProtocolo { get; set; }
         public string Titulo { get; set; } = null!;
         public string Descricao { get; set; } = null!;
-        public DateTime DataAbertura { get; set; }
+        public DateTime? DataAbertura { get; set; }
         public DateTime? DataFechamento { get; set; }
 
         public long ClienteId { get; set; }

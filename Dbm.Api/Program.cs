@@ -2,6 +2,7 @@ using Dbm.Api.Controllers;
 using Dbm.Api.Data;
 using Dbm.Api.Handlers;
 using Dbm.Api.Repositories;
+using Dbm.Api.Repositories.Interfaces;
 using Dbm.Core.Handlers;
 using Microsoft.EntityFrameworkCore;
 using System;

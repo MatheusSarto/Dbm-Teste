@@ -1,6 +1,6 @@
 ﻿using Dbm.Core.Models;
 
-namespace Dbm.Api.Repositories
+namespace Dbm.Api.Repositories.Interfaces
 {
     public interface IProtocolosRepository
     {

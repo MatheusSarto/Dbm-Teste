@@ -60,11 +60,12 @@ namespace Dbm.Api.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("IdProtocolo"));
+
                     b.Property<long>("ClienteId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT");
 
-                    b.Property<DateTime>("DataAbertura")
+                    b.Property<DateTime?>("DataAbertura")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("DATETIME")
                         .HasDefaultValueSql("getdate()");
@@ -78,10 +79,7 @@ namespace Dbm.Api.Migrations
                         .HasColumnType("NVARCHAR");
 
                     b.Property<long>("ProtocoloStatusId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("BIGINT");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("ProtocoloStatusId"));
 
                     b.Property<string>("Titulo")
                         .IsRequired()
@@ -91,6 +89,8 @@ namespace Dbm.Api.Migrations
                     b.HasKey("IdProtocolo");
 
                     b.HasIndex("ClienteId");
+
+                    b.HasIndex("ProtocoloStatusId");
 
                     b.ToTable("Protocolo", (string)null);
                 });
@@ -151,7 +151,7 @@ namespace Dbm.Api.Migrations
 
                     b.HasOne("Dbm.Core.Models.StatusProtocolo", "ProtocoloStatus")
                         .WithMany("Protocolos")
-                        .HasForeignKey("IdProtocolo")
+                        .HasForeignKey("ProtocoloStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 

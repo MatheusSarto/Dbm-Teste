@@ -27,7 +27,7 @@ namespace Dbm.Api.Mappings
                 .HasMaxLength(280);
 
             builder.Property(p => p.DataAbertura)
-                .IsRequired()
+                .IsRequired(false)
                 .HasColumnType("DATETIME")
                 .HasDefaultValueSql("getdate()");
 
@@ -37,13 +37,11 @@ namespace Dbm.Api.Mappings
 
             builder.Property(p => p.ClienteId)
             .IsRequired()
-            .HasColumnType("BIGINT")
-            .ValueGeneratedOnAdd();
+            .HasColumnType("BIGINT");
 
             builder.Property(p => p.ProtocoloStatusId)
             .IsRequired()
-            .HasColumnType("BIGINT")
-            .ValueGeneratedOnAdd();
+            .HasColumnType("BIGINT");
 
             builder.HasOne(p => p.Cliente)
                 .WithMany(c => c.Protocolos)
@@ -52,7 +50,7 @@ namespace Dbm.Api.Mappings
 
             builder.HasOne(p => p.ProtocoloStatus)
                 .WithMany(pf => pf.Protocolos)
-                .HasForeignKey(p => p.IdProtocolo)
+                .HasForeignKey(p => p.ProtocoloStatusId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

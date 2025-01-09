@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Dbm.Api.Migrations
 {
     /// <inheritdoc />
-    public partial class v1 : Migration
+    public partial class v2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -44,14 +44,14 @@ namespace Dbm.Api.Migrations
                 name: "Protocolo",
                 columns: table => new
                 {
-                    IdProtocolo = table.Column<long>(type: "BIGINT", nullable: false),
+                    IdProtocolo = table.Column<long>(type: "BIGINT", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Titulo = table.Column<string>(type: "NVARCHAR(128)", maxLength: 128, nullable: false),
                     Descricao = table.Column<string>(type: "NVARCHAR(280)", maxLength: 280, nullable: false),
-                    DataAbertura = table.Column<DateTime>(type: "DATETIME", nullable: false, defaultValueSql: "getdate()"),
+                    DataAbertura = table.Column<DateTime>(type: "DATETIME", nullable: true, defaultValueSql: "getdate()"),
                     DataFechamento = table.Column<DateTime>(type: "DATETIME", nullable: true),
                     ClienteId = table.Column<long>(type: "BIGINT", nullable: false),
                     ProtocoloStatusId = table.Column<long>(type: "BIGINT", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
                 },
                 constraints: table =>
                 {
@@ -63,8 +63,8 @@ namespace Dbm.Api.Migrations
                         principalColumn: "IdCliente",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Protocolo_StatusProtocolos_IdProtocolo",
-                        column: x => x.IdProtocolo,
+                        name: "FK_Protocolo_StatusProtocolos_ProtocoloStatusId",
+                        column: x => x.ProtocoloStatusId,
                         principalTable: "StatusProtocolos",
                         principalColumn: "IdStatus",
                         onDelete: ReferentialAction.Cascade);
@@ -95,6 +95,11 @@ namespace Dbm.Api.Migrations
                 name: "IX_Protocolo_ClienteId",
                 table: "Protocolo",
                 column: "ClienteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Protocolo_ProtocoloStatusId",
+                table: "Protocolo",
+                column: "ProtocoloStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProtocoloFollow_ProtocoloId",

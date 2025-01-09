@@ -1,32 +1,63 @@
-﻿using Dbm.Core.Models;
+﻿using Dbm.Api.Data;
+using Dbm.Api.Repositories.Interfaces;
+using Dbm.Core.Models;
+using Dbm.Core.Requests.Cliente;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dbm.Api.Repositories
 {
     public class AcompanhamentoProtocoloRepository : IAcompanhamentoProtocoloRepository
     {
-        public Task<ProtocoloFollow> AddAcompanhamentoProtocolo(ProtocoloFollow protocolo)
+        private readonly AppDbContext _context;
+        public AcompanhamentoProtocoloRepository(AppDbContext context) => _context = context;
+
+
+        public async Task<ProtocoloFollow> AddAcompanhamentoProtocolo(ProtocoloFollow protocoloFollow)
         {
-            throw new NotImplementedException();
+            var result = _context.ProtocolosFollow.Add(protocoloFollow);
+            await _context.SaveChangesAsync();
+        
+            return result.Entity;
         }
 
-        public Task<ProtocoloFollow?> DeleteAcompanhamentoProtocolo(long idCliente)
+        public async Task<ProtocoloFollow?> DeleteAcompanhamentoProtocolo(long idProtocoloFollow)
         {
-            throw new NotImplementedException();
+            var protocoloFollow = await _context.ProtocolosFollow.FindAsync(idProtocoloFollow);
+            if (protocoloFollow == null)
+            {
+                throw new Exception("Nenhum registro encontrado");
+            }
+
+            _context.ProtocolosFollow.Remove(protocoloFollow);
+            await _context.SaveChangesAsync();
+            return protocoloFollow;
         }
 
-        public Task<ProtocoloFollow> GetAcompanhamentoById(long idAcompanhamento)
+        public async Task<ProtocoloFollow?> GetAcompanhamentoById(long idAcompanhamento)
         {
-            throw new NotImplementedException();
+            var result = await _context.ProtocolosFollow.FindAsync(idAcompanhamento);
+
+            return result;
         }
 
-        public Task<ProtocoloFollow[]> GetTodosAcompanhamentosProtocolo()
+        public async Task<ProtocoloFollow[]> GetTodosAcompanhamentosProtocolo()
         {
-            throw new NotImplementedException();
+            var result = await _context.ProtocolosFollow.ToArrayAsync();
+
+            return result;
         }
 
-        public Task<ProtocoloFollow> UpdateAcompanhamentoProtocolo(ProtocoloFollow statusProtocolo)
+        public async Task<ProtocoloFollow> UpdateAcompanhamentoProtocolo(ProtocoloFollow statusProtocolo)
         {
-            throw new NotImplementedException();
+            if (GetAcompanhamentoById(statusProtocolo.IdFollow) == null)
+            {
+                throw new Exception("Nenhum registro encontrado");
+            }
+
+            _context.ProtocolosFollow.Entry(statusProtocolo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return statusProtocolo;
         }
     }
 }

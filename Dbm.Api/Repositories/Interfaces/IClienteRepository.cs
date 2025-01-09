@@ -1,7 +1,7 @@
 ﻿using Dbm.Core.Models;
 using Dbm.Core.Requests.Cliente;
 
-namespace Dbm.Api.Repositories
+namespace Dbm.Api.Repositories.Interfaces
 {
     public interface IClienteRepository
     {

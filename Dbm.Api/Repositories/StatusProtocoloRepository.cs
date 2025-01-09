@@ -1,32 +1,63 @@
-﻿using Dbm.Core.Models;
+﻿using Dbm.Api.Data;
+using Dbm.Api.Repositories.Interfaces;
+using Dbm.Core.Handlers;
+using Dbm.Core.Models;
+using Dbm.Core.Requests.StatusProtocolos;
+using Microsoft.EntityFrameworkCore;
 
 namespace Dbm.Api.Repositories
 {
     public class StatusProtocoloRepository : IStatusProtocoloRepository
     {
-        public Task<StatusProtocolo> AddStatusProtocolo(StatusProtocolo statusProtocolo)
+        private readonly AppDbContext _context;
+        public StatusProtocoloRepository(AppDbContext context) => _context = context;
+
+
+        public async Task<StatusProtocolo> AddStatusProtocolo(StatusProtocolo statusProtocolo)
         {
-            throw new NotImplementedException();
+            var result = _context.StatusProtocolos.Add(statusProtocolo);
+            await _context.SaveChangesAsync();
+
+            return result.Entity;
         }
 
-        public Task<StatusProtocolo?> DeleteStatusProtocolo(long idStatusProtocolo)
+        public async Task<StatusProtocolo?> DeleteStatusProtocolo(long idStatusProtocolo)
         {
-            throw new NotImplementedException();
+            var toDelte = await _context.StatusProtocolos.FindAsync(idStatusProtocolo);
+            if (toDelte == null) 
+            {
+                throw new Exception("Nenhum registro encontrado");
+            }
+
+            _context.StatusProtocolos.Remove(toDelte);
+            await _context.SaveChangesAsync();
+            return toDelte;
         }
 
-        public Task<StatusProtocolo> GetStatusProtocoloById(long idstatusProtocolo)
+        public async Task<StatusProtocolo?> GetStatusProtocoloById(long idstatusProtocolo)
         {
-            throw new NotImplementedException();
+            var result = await _context.StatusProtocolos.FindAsync(idstatusProtocolo);
+            
+            return result;
         }
 
-        public Task<StatusProtocolo[]> GetTodosstatusProtocolo()
+        public async Task<StatusProtocolo[]> GetTodosstatusProtocolo()
         {
-            throw new NotImplementedException();
+            var result = await _context.StatusProtocolos.ToArrayAsync();
+
+            return result;
         }
 
-        public Task<StatusProtocolo> UpdateStatusProtocolo(StatusProtocolo statusProtocolo)
+        public async Task<StatusProtocolo> UpdateStatusProtocolo(StatusProtocolo statusProtocolo)
         {
-            throw new NotImplementedException();
+            if(GetStatusProtocoloById(statusProtocolo.IdStatus) == null)
+            {
+                throw new Exception("Nenhum registro encontrado");
+            }
+            _context.StatusProtocolos.Entry(statusProtocolo).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return statusProtocolo;
         }
     }
 }
